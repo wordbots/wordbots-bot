@@ -13,8 +13,10 @@ bot.message(start_with: ['[{"id":"', '{"id":"']) do |event|
 
   cards.each do |card|
     card.slice!('name', 'spriteID', 'type', 'cost', 'stats', 'text')
-    name, text = card['name'], card['text']
+    card['text'] = URI.unescape(card['text']) if card['text'].include?('%20')  # Text could be url-encoded.
     puts card
+
+    name, text = card['name'], card['text']
 
     card['name'] = url_encode(card['name'])
     card['text'] = url_encode(card['text'])
