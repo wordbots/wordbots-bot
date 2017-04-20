@@ -12,7 +12,7 @@ bot.message(start_with: ['[{"id":"', '{"id":"']) do |event|
   cards = [cards] if cards.is_a?(Hash)
 
   cards.each do |card|
-    card.slice!('name', 'type', 'cost', 'stats', 'text')
+    card.slice!('name', 'spriteID', 'type', 'cost', 'stats', 'text')
     name, text = card['name'], card['text']
     puts card
 
