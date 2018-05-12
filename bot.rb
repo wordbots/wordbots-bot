@@ -8,7 +8,7 @@ include ERB::Util
 
 bot = Discordrb::Bot.new(token: ENV['DISCORD_API_TOKEN'], client_id: ENV['DISCORD_APP_ID'])
 
-bot.message(start_with: ['[{"id":"', '{"id":"']) do |event|
+bot.message(start_with: ['[{"id":"', '{"id":"', '[{"name":"']) do |event|
   cards = JSON.parse(event.message.content)
   cards = [cards] if cards.is_a?(Hash)
 
@@ -17,10 +17,12 @@ bot.message(start_with: ['[{"id":"', '{"id":"']) do |event|
     puts card
 
     name, text = card['name'], card['text'].gsub('%27', '"')
+    # puts text
+    # puts url_encode(text)
 
     card['name'] = url_encode(card['name'])
     card['text'] = url_encode(card['text'])
-    puts  JSON.generate(card)
+    puts JSON.generate(card)
     image_url = "http://app.wordbots.io/api/card.png?card=#{JSON.generate(card)}"
 
     event.respond "**#{name}**\n#{text}\n#{image_url}"
